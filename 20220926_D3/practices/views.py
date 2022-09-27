@@ -12,11 +12,11 @@ def index(request, _number):
         "number": _number,
         "result": res,
     }
-    return render(request, "index.html", context)
+    return render(request, "practices/index.html", context)
 
 
 def ping(request):
-    return render(request, "ping.html")
+    return render(request, "practices/ping.html")
 
 
 def pong(request):
@@ -26,7 +26,7 @@ def pong(request):
     #     'name': name,
     # }
 
-    return render(request, "pong.html", {"name": request.GET.get("ball")})
+    return render(request, "practices/pong.html", {"name": request.GET.get("ball")})
 
 
 def calc(request, a, b):
@@ -42,4 +42,4 @@ def calc(request, a, b):
         "mult": mult,
         "div": div,
     }
-    return render(request, "calc.html", context)
+    return render(request, "practices/calc.html", context)
