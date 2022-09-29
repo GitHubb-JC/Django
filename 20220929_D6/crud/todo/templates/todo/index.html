@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Todo list</h1>
+
+<!-- 제출 부분 -->
+<!-- 제출 부분 -->
+<!-- 제출 부분 -->
+
+<form action="{% url 'todo:create' %}">
+  <div class="input-group mb-3 px-3">
+    <span class="input-group-text" id="basic-addon1">할 일</span>
+    <input type="text" name="content" class="form-control" placeholder="" aria-label="Username"
+      aria-describedby="basic-addon1" maxlength="80">
+  </div>
+  <div class="input-group mb-3 px-3">
+    <span class="input-group-text" id="basic-addon1">우선 순위</span>
+    <select class="form-select" name="priority" aria-label="Default select example">
+      <option selected>Open this select menu</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+  <div class="input-group mb-3 px-3">
+    <span class="input-group-text" id="basic-addon1">마감 기한</span>
+    <input type="date" name="deadline" class="form-control" placeholder="Username" aria-label="Username"
+      aria-describedby="basic-addon1">
+  </div>
+  <div class="input-group mb-3 px-3">
+    <input type="submit" class="form-control" placeholder="Username" aria-label="Username"
+      aria-describedby="basic-addon1" maxlength="80" value="할 일 추가">
+  </div>
+</form>
+
+<!-- 리스트 부분 -->
+<!-- 리스트 부분 -->
+<!-- 리스트 부분 -->
+<div class="table-responsive input-group mb-3 px-3">
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th scope="col">우선 순위</th>
+        <th scope="col">할 일 내용</th>
+        <th scope="col">생성 날짜</th>
+        <th scope="col">마감 기한</th>
+        <th scope="col">진행 상태</th>
+        <th scope="col">상태 변경</th>
+        <th scope="col">삭제</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in todo_ %}
+
+      <tr>
+        <th scope="row" class="align-items-center">{{ todo.priority }}</th>
+        <td>{{ todo.content }}</td>
+        <td>{{ todo.created_at }}</td>
+        <td>{{ todo.deadline }}</td>
+        <td>{{ todo.completed }}</td>
+        <td>
+          <a class="btn btn-primary py-sm-1" href="{% url 'todo:update' todo.pk %}" role="button">변경</a>
+        </td>
+        <td>
+          <a class="btn btn-danger py-sm-1" href="{% url 'todo:delete' todo.pk %}" role="button">삭제</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
