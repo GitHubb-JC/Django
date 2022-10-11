@@ -27,6 +27,7 @@ def create(request):
             return redirect("articles.index")
     else:
         article_form = ArticleForm()
+
     context = {
         "article_form": article_form,
     }
@@ -43,7 +44,14 @@ def detail(request, pk):
 
 def update(request, pk):
     article = Articles.objects.get(pk=pk)
-    article_form = ArticleForm(instance=article)
+    if request.method == "POST":
+        article_form = ArticleForm(request.POST, instance=article)
+        if article_form.is_valid():
+            article_form.save()
+            return redirect("articles:detail", article.pk)
+    else:
+        article_form = ArticleForm(instance=article)
+
     context = {
         "article_form": article_form,
     }

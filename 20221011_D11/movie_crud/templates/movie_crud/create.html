@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block navbaricon %}
+  {% load static %}
+  <img src="{% static "movie_crud/123.png" %}" alt="" width="30" height="30" class="d-inline-block align-text-top"/>
+{% endblock navbaricon %}
+
+{% block content %}
+  {% load django_bootstrap5 %}
+  <form action="" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input class="btn btn-primary" type="submit" value="추가">
+  </form>
+{% endblock %}
