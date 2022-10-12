@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "movie_crud",
     "accounts",
     "django_bootstrap5",
+    'django_extensions',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
