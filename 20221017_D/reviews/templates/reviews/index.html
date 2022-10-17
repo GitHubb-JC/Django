@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <div class="container">
+    <h1>리뷰 모아보기</h1>
+    {% if request.user.is_authenticated %}
+      <a class="btn btn-primary my-3 float-right" href="{% url 'reviews:create' %}">글 쓰기</a>
+    {% endif %}
+    <div class="row">
+      {% for review in reviews %}
+        <div class="col-4">
+          <div class="card">
+            <img src="{{ review.image.url }}" class="card-img-top" alt="">
+            <div class="card-body">
+              <h5 class="card-title">{{ review.title }}</h5>
+              <a href="{% url 'reviews:detail' review.pk %}" class="btn btn-outline-primary my-3">리뷰 상세보기</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endblock content %}
