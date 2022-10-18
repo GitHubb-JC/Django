@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <div class="container my-2">
+    <h1>HI
+      {{ user.username }}!</h1>
+    <p>사용자 이름 :
+      {{ user.username }}</p>
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    {% endif %}
+  </div>
+{% endblock content %}

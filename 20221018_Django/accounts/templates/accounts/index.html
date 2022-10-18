@@ -7,7 +7,12 @@
     {% for user in users %}
       <p>{{ user.pk }}
         ||
-        {{ user.username }}</p>
+        {{ user.username }}
+        ||
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'accounts:detail' user.pk %}">상세 프로필</a>
+        {% endif %}
+      </p>
     {% endfor %}
     {% if request.user.is_authenticated %}
       <a href="{% url 'accounts:logout' %}">로그아웃</a>
