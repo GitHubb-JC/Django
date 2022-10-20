@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
   <div class="container my-3">
     <h1>리뷰</h1>
     {% if review.image %}
-      <img src="{{ review.image.url }}" alt="{{ review.image }}" width="720" height="480">
+      <img src="{{ review.image.url }}" alt="{{ review.image }}" height="480">
     {% endif %}
-    <h3>영화 제목 :
+    <h3 class="my-2">영화 제목 :
       {{ review.movie_name }}
     </h3>
-    <h3>영화 평점 :
+    <h3 class="my-2">영화 평점 :
       {{ review.grade }}
     </h3>
     <p>리뷰 제목 :
@@ -19,10 +20,10 @@
       {{ review.content }}
     </p>
     <p>리뷰 생성시간 :
-      {{ review.created_at }}
+      {{ review.created_at|date:'y.m.d H:i'  }}
     </p>
     <p>리뷰 수정시간 :
-      {{ review.updated_at }}
+      {{ review.updated_at|date:'y.m.d H:i' }}
     </p>
     <div class="d-flex colunm">
       <a href="{% url 'reviews:update' review.pk %}"><input type="submit" class="btn btn-warning " value="수정"></a>
@@ -33,12 +34,28 @@
         </button>
       </form>
     </div>
-    <h4 class="my-3">댓글</h4>
+    <div class="d-flex col-2 align-items-center">
+      <h4 class="my-3">댓글
+      </h4>
+      <p class="text-center m-3">
+        총
+        {{ comments.count }}
+        개</p>
+    </div>
+    <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form comment_form %}
+      <input type="submit" value="댓글 생성">
+    </form>
+    <hr>
     {% for comment in comments %}
-      <p>댓글 :
-        {{ comment.content }}
-      </p>
-      <hr>
+      <div class="d-flex col-2 align-items-center justify-content-center">
+        <p class="text-center my-2">{{ comment.content }}</p>
+        <form class="mx-2" action="{% url 'reviews:comment_delete' review.pk comment.pk %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="댓글 삭제">
+        </form>
+      </div>
       {% empty %}
       <p>댓글이 없어요...</p>
     {% endfor %}

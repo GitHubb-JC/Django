@@ -2,11 +2,15 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<p>{{ request.user.last_name }}</p>
-<p>{{ request.user.first_name }}</p>
-<p>{{ request.user.email }}</p>
+  <div class="container">
+    <p>나의 이름 :
+      {{ request.user.username}}</p>
+    <p>나의 이메일 :
+      {{ request.user.email }}</p>
 
-<button class="btn btn-dark" type="button" onclick="location.href='{% url 'accounts:update' %}'">
-    Update Profile
-</button>
+    <button class="btn btn-dark" type="button" onclick="location.href='{% url 'accounts:update' %}'">
+      Update Profile
+    </button>
+  </div>
+
 {% endblock content %}
