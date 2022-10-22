@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block content %}
+  <div class="container mt-5 border border-3 border-dark rounded">
+    <h1 class="my-3">영화 제목 :
+      {{ review.movie_name }}
+    </h1>
+    <div class="d-flex justify-content-between">
+    <span>작성자 :{{ review.user.username }}</span>    
+    <span>
+    {% if review.grade == 5 %}
+                ⭐⭐⭐⭐⭐
+              {% elif review.grade == 4 %}
+                ⭐⭐⭐⭐
+              {% elif review.grade == 3 %}
+                ⭐⭐⭐
+              {% elif review.grade == 2 %}
+                ⭐⭐
+              {% elif review.grade == 1 %}
+                ⭐
+              {% endif %}
+            </span>               
+    </div>  
+    <hr>  
+    <p>제목 :
+      {{ review.title }}</p>
+    <hr>  
+    <p>내용 :
+      {{ review.content }}</p>
+    <hr>  
+    <p>작성시간 :
+      {{ review.created_at|date:'y.m.d H:i' }}</p>
+    <hr>    
+    <p>수정시간 :
+      {{ review.updated_at|date:'y.m.d H:i' }}</p>
+    <hr>    
+
+    {% if request.user == review.user %}
+      <div class="d-flex">
+        <a href="{% url 'reviews:update' review.pk %}"><input type="submit" class="btn btn-warning " value="수정하기"></a>
+        <form action="{% url 'reviews:delete' review.pk %}" method="POST">
+          {% csrf_token %}
+          <input type='submit' class='btn btn-danger mx-2' value='삭제하기'>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+      <div class="my-2">
+        <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
+          {% csrf_token %}
+          {% bootstrap_form comment_form %}
+          <input type="submit" value="댓글 작성">
+        </form>
+      </div>
+    {% endif %}
+    <hr>
+    {% for comment in review.comment_set.all %}
+    <div class="d-flex">
+      <p>{{ comment.user.username }}
+        |
+        {{ comment.content }}</p>
+      {% if request.user == comment.user %}
+        <form action="{% url 'reviews:comment_delete' review.pk comment.pk%}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="DELETE">
+        </form>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
