@@ -116,3 +116,9 @@ def search(request):
         }
 
     return render(request, "reviews/search.html", context)
+
+
+def like(request, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    review.like_users.add(request.user)
+    return redirect("reviews:detail", review_pk)
