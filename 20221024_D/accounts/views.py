@@ -3,6 +3,8 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from .models import User
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -34,3 +36,15 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect("reviews:index")
+
+
+@login_required
+def profil(request, user_pk):
+    if request.user.pk == user_pk:
+        user = User.objects.get(pk=user_pk)
+        context = {
+            "user": user,
+        }
+        return render(request, "accounts/profil.html", context)
+    else:
+        return redirect("accounts:index")

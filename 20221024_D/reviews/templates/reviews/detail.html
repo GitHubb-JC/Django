@@ -49,7 +49,12 @@
 
     {% if request.user.is_authenticated %}
       <div class="my-2">
-        <a class="py-2" href="{% url 'reviews:like' review.pk %}">좋아요
+        <a class="py-2" href="{% url 'reviews:like' review.pk %}">
+          {% if request.user in review.like_users.all %}
+            <i class="bi bi-heart-fill"></i>
+          {% else %}
+            <i class="bi bi-heart"></i>
+          {% endif %}
         </a>|
         <span>{{ review.like_users.count }}</span>
         <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">

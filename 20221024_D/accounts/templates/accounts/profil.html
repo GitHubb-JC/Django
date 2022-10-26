@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block content %}
+  <div class="container my-2">
+
+    <h1>{{ user.username }}
+      님의 프로필</h1>
+    <div class="col-6 my-3">
+      <h3>작성한 글</h3>
+      <p class="text-muted">{{ user.review_set.count }}
+        개를 작성하셨습니다.</p>
+      {% for review in user.review_set.all %}
+        <p>
+          {{ forloop.counter }}
+          <a href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a>
+        </p>
+      {% endfor %}
+    </div>
+    <div class="col-6 my-3">
+      <h3>작성한 댓글</h3>
+      <p class="text-muted">{{ user.comment_set.count }}
+        개를 작성하셨습니다.</p>
+      {% for comment in user.comment_set.all %}
+        <p>
+          {{ forloop.counter }}
+          <a href="{% url 'reviews:detail' comment.pk %}">{{ comment.content }}</a>
+        </p>
+      {% endfor %}
+    </div>
+    <div class="col-6 my-3">
+      <h3>좋아요 한 글</h3>
+      <p class="text-muted">{{ user.like_reviews.count }}
+        개를 '좋아요' 하셨습니다.</p>
+      {% for review in user.like_reviews.all %}
+        <p>
+          {{ forloop.counter }}
+          <a href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a>
+        </p>
+      {% endfor %}
+    </div>
+
+  </div>
+
+{% endblock %}

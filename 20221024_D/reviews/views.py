@@ -120,5 +120,12 @@ def search(request):
 
 def like(request, review_pk):
     review = Review.objects.get(pk=review_pk)
-    review.like_users.add(request.user)
+    # 만약 좋아요 데이터가 무척 많을 경우에는
+    # all() 로 전부 가져오는게 아니라
+    # exists() 로 id 확인을 바로 할 수 있음
+    # if review.like_users.filter(id=request.user.id).exists():
+    if request.user in review.like_users.all():
+        review.like_users.remove(request.user)
+    else:
+        review.like_users.add(request.user)
     return redirect("reviews:detail", review_pk)
