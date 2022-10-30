@@ -5,6 +5,15 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from .models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
+
+def index(request):
+    users = User.objects.all()
+    context = {
+        "users": users,
+    }
+    return render(request, "accounts/index.html", context)
 
 
 # Create your views here.
@@ -48,3 +57,17 @@ def profil(request, user_pk):
         return render(request, "accounts/profil.html", context)
     else:
         return redirect("accounts:index")
+
+
+def follow(request, user_pk):
+    if request.user.pk == user_pk:
+        messages.success(request, "스스로 팔로우 할 수 없습니다 ㅜㅠ")
+        return redirect("accounts:index")
+    else:
+        user = User.objects.get(pk=user_pk)
+        if request.user in user.followings.all():
+            user.followings.remove(request.user)
+            return redirect("accounts:index")
+        else:
+            user.followings.add(request.user)
+            return redirect("accounts:index")

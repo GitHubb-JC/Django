@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block content %}
+  <div class="container">
+    <h1 class="my-2">유저 목록</h1>
+    {% if request.user.is_authenticated %}
+      <table class="table">
+
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">유저 이름</th>
+            <th scope="col">유저 이메일</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for user in users %}
+            <div>
+              <tr>
+                <th scope="row">{{ user.pk }}</th>
+                <td>
+                  <a href="{% url 'accounts:profil' user.pk %}">{{ user.username }}</a>
+                </td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <a class="btn btn-primary py-sm-1" href="{% url 'accounts:follow' user.pk %}" role="button">
+                    {% if request.user == user %}
+                      팔로우 금지
+                    {% elif request.user in user.followings.all %}
+                      팔로우 취소
+                    {% else %}
+                      팔로우
+                    {% endif %}
+                  </a>
+                </td>
+              </tr>
+            </div>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    {% else %}
+      <h3>로그인 해주세요!!</h3>
+    {% endif %}
+  </div>
+{% endblock %}
