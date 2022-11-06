@@ -40,6 +40,9 @@ def create(request):
     }
     return render(request, "articles/forms.html", context)
 
+def delete(request,article_pk):
+    Article.objects.get(pk=article_pk).delete()
+    return redirect('articles:index')
 
 def update(request, article_pk):
     article = Article.objects.get(pk=article_pk)
@@ -101,6 +104,4 @@ def like(request, article_pk):
         article.like_users.add(request.user)
     return redirect("articles:detail", article_pk)
 
-def delete(request,article_pk):
-    Article.objects.get(pk=article_pk).delete()
-    return redirect('articles:index')
+
