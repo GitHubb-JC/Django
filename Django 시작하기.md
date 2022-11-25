@@ -123,3 +123,16 @@ urlpatterns = [
 ]
 ```
 
+8. 헤로쿠 배포 후에는 .env 파일 만들어 줘야한다
+
+```
+MAPKEY = "77f920d00b20f032ef7aa8cff4ff1e10"
+AWS_ACCESS_KEY_ID = "AKIA4L3V3G5BMSDH2PGK"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "intellilabs"
+DEBUG="True"
+DATABASE_NAME="intellilabs"
+DATABASE_PASSWORD="crud1234"
+DATABASE_HOST="intellilabs.cxlqacuipc01.ap-northeast-2.rds.amazonaws.com"
+```
+
